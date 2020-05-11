@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <metacharset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        class App extends React.Component {
+            constructor(props) {
+                super(props);
+
+                this.state = {
+                    x: 10,
+                    y: 20
+                }
+
+                this.modify();
+            }
+
+            modify() {
+                setTimeout(() => {
+                    // diff avec le state précédent 
+                    // x : 10, y : 20 delta x : 100  y : 20
+                    this.setState({ x: 100 })
+                }, 500);
+            }
+
+            render() {
+
+                return (
+                    <React.Fragment>
+                        <p>Coordonnées x : {this.state.x}</p>
+                        <p>Coordonnées y : {this.state.y}</p>
+                    </React.Fragment>
+                )
+            }
+        }
+
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root') // montage de deux composants
+        );
+    </script>
+</body>
+
+</html>
