@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <metacharset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        class Elems extends React.Component {
+
+            constructor(props) {
+                super(props);
+            }
+
+            handlerDelete = (el, e) => { event.preventDefault(); }
+
+            render() {
+
+                const { elems } = this.props;
+
+                return (
+                    <tbody>
+                        {elems.map((el, i) => (
+                            <tr key={i}>
+                                <th scop="row" >{el.key}</th>
+                                <td>{el.hash}</td>
+                                <td><button
+                                    className="btn btn-danger"
+                                    onClick={ event => this.handlerDelete(el.key, event) }
+                                >Delete</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                );
+            }
+        }
+
+        class App extends React.Component {
+
+            constructor(props) {
+                super(props);
+
+                this.state = { 
+                    elems: [], 
+                    loading: true 
+                }
+            }
+
+            componentDidMount() {
+
+                // API generate Hash
+                setTimeout(() => {
+                    const elems = [ ...Array(5).keys() ].map(() => {
+                        return{ 
+                            key: Math.random().toString(16).slice(2,10), 
+                            hash :  Math.random().toString(16) 
+                        }
+                    });
+                    this.setState({
+                        elems: elems,
+                        loading: false
+                    })
+                }, 500);
+            }
+
+            render() {
+
+                const { elems, loading } = this.state;
+
+                return (
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-3">
+                                <button
+
+                                    className="btn btn-primary app_btn" >Generate hash</button>
+                            </div>
+                            <div className="col-md-9">
+                                <table className="table table-hover table-dark">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">key</th>
+                                            <th scope="col">Hash</th>
+                                            <th scope="col">Delete</th>
+                                        </tr>
+                                    </thead>
+                                    {/* Pensez que c'est du JS et de bien former votre structure HTML sinon warning */}
+                                    {loading && <tbody><tr><td colSpan="3"> <p>Loading ...</p></td></tr></tbody>}
+                                    {loading == false && (<Elems elems={elems} />)}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root') // montage de deux composants
+        );
+    </script>
+</body>
+
+</html>
