@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <metacharset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        class Button extends React.Component{
+            constructor(props){
+                super(props);
+                // pour lier le this de la classe à la méthode click
+                // pour pouvoir récupérer les props par exemple
+                //this.click = this.click.bind(this);
+            }
+
+            // click(){
+            //     console.log('click');
+            //     console.log(this.props.name);
+            // }
+
+            // on peut passer également par une fonction flèchée
+            // celle-ci récupère le contexte dans lequel elle a été définie donc le this de la classe
+            click = () => {
+                console.log(this.props.name);
+            }
+
+            render(){
+
+                return(
+                    <button onClick={this.click}>Clike Me !</button>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <Button name="text" />,
+            document.getElementById('root') // montage de deux composants
+        );
+    </script>
+</body>
+
+</html>

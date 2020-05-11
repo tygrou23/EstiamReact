@@ -19,9 +19,9 @@
 
                 this.state = {
                     x: 10,
-                    y: 20
+                    y: 20,
+                    count: 0
                 }
-
                 this.modify();
             }
 
@@ -29,8 +29,39 @@
                 setTimeout(() => {
                     // diff avec le state précédent 
                     // x : 10, y : 20 delta x : 100  y : 20
-                    this.setState({ x: 100 })
+                    this.setState({ x: -10 });
+
                 }, 500);
+            }
+
+            componentDidMount() {
+                this.setState((prevState, props) =>({count: prevState.count + 1}));
+                this.setState({ count: this.state.count + 1 });
+                console.log('count', this.state.count);
+                // this.setState({ count: this.state.count + 1 });
+                // this.setState({ count: this.state.count + 1 });
+                // this.setState({ count: this.state.count + 1 });
+                // this.setState({ count: this.state.count + 1 });
+                // this.setState({ count: this.state.count + 1 });
+                // this.setState({ count: this.state.count + 1 });
+                // this.setState({ count: this.state.count + 1 });
+                // this.setState({ count: this.state.count + 1 });
+                // this.setState({ count: this.state.count + 1 });
+
+                
+                
+                this.setState((prevState, props) =>({count: prevState.count + 1}));
+                this.setState((prevState, props) =>({count: prevState.count + 1}));
+                this.setState((prevState, props) =>({count: prevState.count + 1}));
+                this.setState((prevState, props) =>({count: prevState.count + 1}));
+                this.setState((prevState, props) =>({count: prevState.count + 1}));
+                this.setState((prevState, props) =>({count: prevState.count + 1}));
+                this.setState((prevState, props) =>({count: prevState.count + 1}));
+                this.setState((prevState, props) =>({count: prevState.count + 1}));
+
+                console.log('count', this.state.count);
+
+
             }
 
             render() {
@@ -39,6 +70,9 @@
                     <React.Fragment>
                         <p>Coordonnées x : {this.state.x}</p>
                         <p>Coordonnées y : {this.state.y}</p>
+                        <p>{this.state.count}</p>
+
+                        CLICK
                     </React.Fragment>
                 )
             }
