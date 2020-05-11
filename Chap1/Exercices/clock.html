@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <metacharset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root1"></div>
+    <div id="root2"></div>
+
+    <script type="text/babel">
+
+        class Clock1 extends React.Component {
+
+            render() {
+
+                return (
+                    <ul>
+                        <li>Lancelot</li>
+                        <li>Bohort</li>
+                        <li>Dagonet</li>
+                        <li>Gauvain</li>
+                        <li>{(new Date()).toLocaleString()}</li>
+                    </ul>
+                );
+            }
+        }
+
+
+        class Clock2 extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.timer = (new Date()).toLocaleString();
+                this.horloge();
+            }
+
+            horloge = () => {
+                setInterval(() => {
+                    this.timer = (new Date()).toLocaleString();
+                    console.log(this.timer); // aucun effet sur le render 
+                }, 1000);
+            }
+
+            render() {
+
+                return (
+                    <ul>
+                        <li>Lancelot</li>
+                        <li>Bohort</li>
+                        <li>Dagonet</li>
+                        <li>Gauvain</li>
+                        <li>{this.timer}</li>
+                    </ul>
+                );
+            }
+        }
+
+        function tick1() {
+
+            ReactDOM.render(<Clock1 />, document.getElementById('root1'));
+        }
+
+        function tick2() {
+
+            ReactDOM.render(<Clock2 />, document.getElementById('root2'));
+        }
+
+        const example = false;
+
+        if (example)
+            tick2();
+        else
+            setInterval(tick1, 1000);
+
+    </script>
+</body>
+
+</html>
