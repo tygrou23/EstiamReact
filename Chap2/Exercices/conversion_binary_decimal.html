@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <metacharset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        class BaseNumberInput extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    error: false
+                }
+            }
+
+            handleChange = e => {
+                const { name, value } = e.target;
+                this.props.onChangeBase(value, name);
+            }
+
+
+            render() {
+
+                const { base } = this.props;
+
+                return (
+                    <div className="base form-group">
+                        <label htmlFor="number">Number :</label>
+                        <input
+                            type="text"
+                            onChange={this.handleChange}
+                            className="form-control"
+                            name={base}
+                        />
+                    </div>
+                )
+            }
+        }
+
+        class App extends React.Component {
+            constructor(props) {
+                super(props);
+
+            }
+
+            handleChange = (number, base) => {
+                console.log(number, base);
+
+                if (base === 'decimal') console.log(Number(number).toString(2));
+                if (base === 'binary') console.log(parseInt(Number(number), 2));
+
+            }
+
+            render() {
+
+                return (
+                    <React.Fragment>
+                        <BaseNumberInput
+                            onChangeBase={this.handleChange}
+                            base="decimal"
+                        />
+                        <BaseNumberInput
+                            onChangeBase={this.handleChange}
+                            base="binary"
+                        />
+                    </React.Fragment>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root') // montage de deux composants
+        );
+    </script>
+</body>
+
+</html>
