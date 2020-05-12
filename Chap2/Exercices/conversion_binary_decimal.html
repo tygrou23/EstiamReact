@@ -26,13 +26,11 @@
 
             handleChange = e => {
                 const { name, value } = e.target;
-                this.props.onChangeBase(value, name);
+                this.props.onChangeBase(name, value);
             }
 
-
             render() {
-
-                const { base } = this.props;
+                const { base, number } = this.props;
 
                 return (
                     <div className="base form-group">
@@ -42,6 +40,7 @@
                             onChange={this.handleChange}
                             className="form-control"
                             name={base}
+                            value={number}
                         />
                     </div>
                 )
@@ -52,27 +51,39 @@
             constructor(props) {
                 super(props);
 
-            }
-
-            handleChange = (number, base) => {
-                console.log(number, base);
-
-                if (base === 'decimal') console.log(Number(number).toString(2));
-                if (base === 'binary') console.log(parseInt(Number(number), 2));
-
+                this.state = {
+                    decimal: '',
+                    binary: ''
+                };
             }
 
             render() {
 
+                const { binary, decimal } = this.state;
+
                 return (
                     <React.Fragment>
                         <BaseNumberInput
-                            onChangeBase={this.handleChange}
+                            onChangeBase={(base, number) => {
+                                this.setState({
+                                    decimal: number,
+                                    binary : Number(number).toString(2), 
+                                    base: 'binary'
+                                });
+                            }}
                             base="decimal"
+                            number={decimal}
                         />
                         <BaseNumberInput
-                            onChangeBase={this.handleChange}
+                            onChangeBase={(base, number) => {
+                                this.setState({
+                                    decimal: parseInt(number, 2), 
+                                    binary : number,
+                                    base: 'decimal'
+                                });
+                            }}
                             base="binary"
+                            number={binary}
                         />
                     </React.Fragment>
                 );
