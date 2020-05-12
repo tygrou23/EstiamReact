@@ -34,7 +34,7 @@
 
                 return (
                     <div className="base form-group">
-                        <label htmlFor="number">Number :</label>
+                        <label htmlFor="number">{base}</label>
                         <input
                             type="text"
                             onChange={this.handleChange}
@@ -57,6 +57,23 @@
                 };
             }
 
+            handleChange = (base, number) => {
+
+                if (base === 'decimal') {
+                    this.setState({
+                        decimal: number,
+                        binary: ( isNaN(number) || number == '') ? '' : Number(number).toString(2),
+                    });
+                }
+
+                if (base === 'binary') {
+                    this.setState({
+                        decimal:  ( isNaN(number) || number == '')? '' : parseInt(number, 2),
+                        binary: number,
+                    });
+                }
+            }
+
             render() {
 
                 const { binary, decimal } = this.state;
@@ -64,24 +81,12 @@
                 return (
                     <React.Fragment>
                         <BaseNumberInput
-                            onChangeBase={(base, number) => {
-                                this.setState({
-                                    decimal: number,
-                                    binary : Number(number).toString(2), 
-                                    base: 'binary'
-                                });
-                            }}
+                            onChangeBase={this.handleChange}
                             base="decimal"
                             number={decimal}
                         />
                         <BaseNumberInput
-                            onChangeBase={(base, number) => {
-                                this.setState({
-                                    decimal: parseInt(number, 2), 
-                                    binary : number,
-                                    base: 'decimal'
-                                });
-                            }}
+                            onChangeBase={this.handleChange}
                             base="binary"
                             number={binary}
                         />
