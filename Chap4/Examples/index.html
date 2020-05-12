@@ -16,7 +16,22 @@
     <div id="root"></div>
     <script type="text/babel">
         const container = document.getElementById('root');
-        const Widget = ({ children, color }) => {
+
+        const Split = ({ left, right }) => {
+
+            return (
+                <div className="side">
+                    <div className="side-left">
+                        {left}
+                    </div>
+                    <div className="side-right">
+                        {right}
+                    </div>
+                </div>
+            );
+        }
+
+        const Bar = ({ children, color }) => {
 
             return (
                 <div className={'sidebar' + color}>
@@ -25,21 +40,40 @@
             );
         }
 
+        const Message = ({message}) => <p>{message}</p>;
+
         class App extends React.Component {
 
             render() {
 
+                const { notes } = this.props;
+
                 return (
-                    <Widget color="yellow">
-                        <p>Hello</p>
-                    </Widget>
+                    <React.Fragment>
+                        <Bar color="-yellow">
+                            <Bar color="-sidebar">
+                                <p>Hello je suis inception Bar ....</p>
+                            </Bar>
+                        </Bar>
+                        <Bar color="-yellow">
+                            {notes.map((note, i) => (
+                                <p key={i} >Note : {i * 10} </p>
+                            ))}
+                        </Bar>
+                        <Split 
+                            left = { <Message message="hello left" />}
+                            right = { <Message message="hello right" />}
+                        />
+                    </React.Fragment>
                 );
             }
         }
+
         ReactDOM.render(
-            <App />,
+            <App notes={[...Array(10).keys()]} />,
             container
         )
     </script>
 </body>
+
 </html>
