@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <metacharset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const Message = ({ message, style }) => {
+            const Style = `alert alert-${style}`;
+
+            console.log(Style)
+
+            return (<p className={Style}>{message}</p>)
+        };
+
+        const Users = ({ users }) => {
+
+            return (
+                <ul className="list-group">
+                    {users.map((user, i) => (
+                        <li className="list-group-item" key={i}> {user.username} {user.lastname}</li>
+                    ))}
+                </ul>
+            );
+        }
+
+        class UserForm extends React.Component {
+            constructor(props) {
+                super(props);
+
+                // value du form input controler par notre code
+                this.state = {
+                    username: '',
+                    lastname: '',
+                    users: [],
+                    error: false,
+                    message: ''
+                };
+            }
+
+            handleChange = event => {
+                const { name, value } = event.target;
+
+                this.setState({ [name]: value.toUpperCase() });
+            }
+
+            handleSubmit = event => {
+                event.preventDefault();
+
+                const { username, lastname, users } = this.state;
+
+                if (username && lastname) {
+                    if (
+                        users.filter(user => user.username == username && user.lastname == lastname).length > 0
+                    ) {
+                        this.setState({ message: 'Attention cet utilisateur existe déjà dans la liste', error: true });
+
+                        return;
+                    }
+
+                    this.setState({
+                        username: '',
+                        lastname: '',
+                        users: users.concat([{ username: username, lastname: lastname }]),
+                        error: false,
+                        message: 'Success create user'
+                    });
+
+                    return;
+                }
+
+                this.setState({ message: 'Attention votre formulaire comporte des erreurs', error: true })
+            }
+
+            render() {
+                const { username, lastname, error, users, message } = this.state;
+
+                const styleMessage = error ? 'danger' : 'info';
+
+                return (
+                    <React.Fragment>
+                        {message &&
+                            <Message
+                                message={message}
+                                style={styleMessage}
+                            />
+                        }
+                        <form onSubmit={this.handleSubmit}>
+                            <h2>Formulaire</h2>
+                            <p>
+                                <label>Username:
+                                <input
+                                        type="text"
+                                        name="username"
+                                        value={username}
+                                        onChange={this.handleChange}
+                                    />
+                                </label>
+                            </p>
+                            <p>
+                                <label>Username:
+                                <input
+                                        type="text"
+                                        name="lastname"
+                                        value={lastname}
+                                        onChange={this.handleChange}
+                                    />
+                                </label>
+                            </p>
+                            <p><input type="submit" value="Add" /></p>
+                        </form>
+                        {users.length > 0 ? <Users users={users} /> : <p>Aucun utilisateur pour l'instant </p>}
+                    </React.Fragment>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <UserForm />,
+            document.getElementById('root') // montage de deux composants
+        );
+    </script>
+</body>
+
+</html>
