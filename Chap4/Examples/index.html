@@ -48,6 +48,10 @@
 
                 const { notes } = this.props;
 
+                add = () => {
+                    
+                }
+
                 return (
                     <React.Fragment>
                         <Bar color="-yellow">
@@ -61,8 +65,12 @@
                             ))}
                         </Bar>
                         <Split 
-                            left = { <Message message="hello left" />}
-                            right = { <Message message="hello right" />}
+                            left = { <Message message="hello left" /> }
+                            right = { <Message message="hello right" /> }
+                        />
+                        <Split 
+                            left = { this.add }
+                            right = { <Message message="hello right" /> }
                         />
                     </React.Fragment>
                 );
