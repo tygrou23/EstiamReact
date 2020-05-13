@@ -1,6 +1,5 @@
 import { ADD_DRAGON } from './actions-types';
 
-
 export const addDragon = payload => {
   
   return {

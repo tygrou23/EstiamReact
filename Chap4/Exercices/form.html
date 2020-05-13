@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8" />
     <title>Hello React</title>
@@ -23,45 +22,58 @@
     <div id="root"></div>
     <script type="text/babel">
         class Form extends React.Component {
-            constructor(props) {
-                super(props);
-            }
-            handleSubmit = (e) => {
+
+            handleSubmit = e => {
                 e.preventDefault();
                 const { choice, love } = this.props;
                 this.props.onMessage([choice, love])
             }
+
             render() {
+                const { choice, love, children } = this.props;
+
                 return (
                     <form onSubmit={this.handleSubmit}>
-                        {this.props.children}
-                        <input disabled={this.props.choice == null || this.props.love == null} type="submit" />
+                        {children}
+                        <input 
+                            disabled={choice == null || love == null} 
+                            type="submit" 
+                    />
                     </form>
                 );
             }
         }
+
         class InputRadio extends React.Component {
             constructor(props) {
                 super(props);
             }
-            handleChange = (e) => {
+
+            handleChange = e => {
                 const { name, value } = e.target;
+
                 this.props.onCkecked(name, value);
             }
+
             render() {
+                const { name, value, checked, id} = this.props;
+
                 return (
                     <input className="form-check-input"
-                        name={this.props.name}
-                        value={this.props.value}
+                        name={name}
+                        value={value}
                         type="radio"
                         onChange={this.handleChange}
-                        id={this.props.id}
-                        checked={this.props.checked}
+                        id={id}
+                        checked={checked}
                         className="form-control"
                     />
                 );
             }
         }
+
+        const Message = ({message}) => <p>{message.join(' ')}</p>;
+
         class App extends React.Component {
             constructor(props) {
                 super(props);
@@ -71,30 +83,34 @@
                     message: null
                 };
             }
+
             handleRadio = (name, value) => {
                 this.setState({ [name]: value });
             }
-            handleMessage(message) {
+
+            handleMessage = message => {
                 this.setState({
                     message: message
                 });
             }
+
             render() {
-                let message = null;
-                if (this.state.message != null) {
-                    message = this.state.message.join(' ');
-                }
+                const { message, choice, love } = this.state;
+
                 return (
                     <div className="container">
-                        {message || null}
-                        <Form {...this.state} onMessage={(m) => this.handleMessage(m)} >
+                        {message  && <Message message={message} /> }
+                        <Form 
+                            { ...this.state } 
+                            onMessage={this.handleMessage} 
+                        >
                             <h2>Aimez-vous React ?</h2>
                             <div className="form-check">
                                 <InputRadio
                                     name="choice"
                                     value="c1"
                                     onCkecked={this.handleRadio}
-                                    checked={this.state.choice == "c1"}
+                                    checked={choice == "c1"}
                                     id="idc1"
                                 />
                                 <label className="form-check-label" htmlFor="idc1" >Oui</label>
@@ -104,7 +120,7 @@
                                     name="choice"
                                     value="c2"
                                     onCkecked={this.handleRadio}
-                                    checked={this.state.choice == "c2"}
+                                    checked={choice == "c2"}
                                     id="idc2"
                                 />
                                 <label className="form-check-label" htmlFor="idc2" >Non</label>
@@ -115,7 +131,7 @@
                                     name="love"
                                     value="yes"
                                     onCkecked={this.handleRadio}
-                                    checked={this.state.love == "yes"}
+                                    checked={love == "yes"}
                                     id="idlove1"
                                 />
                                 <label className="form-check-label" htmlFor="idlove1" >J'aime</label>
@@ -125,7 +141,7 @@
                                     name="love"
                                     value="no"
                                     onCkecked={this.handleRadio}
-                                    checked={this.state.love == "no"}
+                                    checked={love == "no"}
                                     id="idlove2"
                                 />
                                 <label className="form-check-label" htmlFor="idlove2" >Je n'aime pas</label>
