@@ -1,6 +1,5 @@
 import { ADD_DRAGON } from "../constants/actions";
 
-
 const stateInit = {
     dragons: ["Apalala", "Balaur", "Bolla"],
     count: 0
@@ -19,7 +18,5 @@ export default (state = stateInit, action = {}) => {
 
         default:
             return state;
-
     }
-
 }

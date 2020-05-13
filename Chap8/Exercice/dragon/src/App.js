@@ -1,16 +1,20 @@
-import React, {Component } from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+
+import Dragon from './Dragon';
 
 // npm install redux  --save
 // npm install react-redux --save
 
-class App extends Component{
+class App extends Component {
 
-  render(){
+  render() {
 
     return (
-      <p>Hello Dragon</p>
+      <>
+        <p>Hello Dragon</p>
+        <Dragon />
+      </>
     )
   }
 }
