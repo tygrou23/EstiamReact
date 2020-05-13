@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- permet de compiler le JSX -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+        .app__post {
+            color: purple;
+        }
+
+        li {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class Form extends React.Component {
+            constructor(props) {
+                super(props);
+            }
+            handleSubmit = (e) => {
+                e.preventDefault();
+                const { choice, love } = this.props;
+                this.props.onMessage([choice, love])
+            }
+            render() {
+                return (
+                    <form onSubmit={this.handleSubmit}>
+                        {this.props.children}
+                        <input disabled={this.props.choice == null || this.props.love == null} type="submit" />
+                    </form>
+                );
+            }
+        }
+        class InputRadio extends React.Component {
+            constructor(props) {
+                super(props);
+            }
+            handleChange = (e) => {
+                const { name, value } = e.target;
+                this.props.onCkecked(name, value);
+            }
+            render() {
+                return (
+                    <input className="form-check-input"
+                        name={this.props.name}
+                        value={this.props.value}
+                        type="radio"
+                        onChange={this.handleChange}
+                        id={this.props.id}
+                        checked={this.props.checked}
+                        className="form-control"
+                    />
+                );
+            }
+        }
+        class App extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    choice: null,
+                    love: null,
+                    message: null
+                };
+            }
+            handleRadio = (name, value) => {
+                this.setState({ [name]: value });
+            }
+            handleMessage(message) {
+                this.setState({
+                    message: message
+                });
+            }
+            render() {
+                let message = null;
+                if (this.state.message != null) {
+                    message = this.state.message.join(' ');
+                }
+                return (
+                    <div className="container">
+                        {message || null}
+                        <Form {...this.state} onMessage={(m) => this.handleMessage(m)} >
+                            <h2>Aimez-vous React ?</h2>
+                            <div className="form-check">
+                                <InputRadio
+                                    name="choice"
+                                    value="c1"
+                                    onCkecked={this.handleRadio}
+                                    checked={this.state.choice == "c1"}
+                                    id="idc1"
+                                />
+                                <label className="form-check-label" htmlFor="idc1" >Oui</label>
+                            </div>
+                            <div className="form-check">
+                                <InputRadio
+                                    name="choice"
+                                    value="c2"
+                                    onCkecked={this.handleRadio}
+                                    checked={this.state.choice == "c2"}
+                                    id="idc2"
+                                />
+                                <label className="form-check-label" htmlFor="idc2" >Non</label>
+                            </div>
+                            <h2>Aimez-vous le Javascript ?</h2>
+                            <div className="form-check">
+                                <InputRadio
+                                    name="love"
+                                    value="yes"
+                                    onCkecked={this.handleRadio}
+                                    checked={this.state.love == "yes"}
+                                    id="idlove1"
+                                />
+                                <label className="form-check-label" htmlFor="idlove1" >J'aime</label>
+                            </div>
+                            <div className="form-check">
+                                <InputRadio
+                                    name="love"
+                                    value="no"
+                                    onCkecked={this.handleRadio}
+                                    checked={this.state.love == "no"}
+                                    id="idlove2"
+                                />
+                                <label className="form-check-label" htmlFor="idlove2" >Je n'aime pas</label>
+                            </div>
+                        </Form>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+
+</html>

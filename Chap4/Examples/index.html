@@ -40,17 +40,22 @@
             );
         }
 
-        const Message = ({message}) => <p>{message}</p>;
+        const Message = ({ message }) => <p>{message}</p>;
 
         class App extends React.Component {
+
+            add = () => {
+
+                return(
+                    <Message message={"Hello je suis add "} />
+                );
+            }
 
             render() {
 
                 const { notes } = this.props;
 
-                add = () => {
-                    
-                }
+
 
                 return (
                     <React.Fragment>
@@ -64,13 +69,14 @@
                                 <p key={i} >Note : {i * 10} </p>
                             ))}
                         </Bar>
-                        <Split 
-                            left = { <Message message="hello left" /> }
-                            right = { <Message message="hello right" /> }
+                        <Split
+                            left={<Message message="hello left" />}
+                            right={<Message message="hello right" />}
                         />
-                        <Split 
-                            left = { this.add }
-                            right = { <Message message="hello right" /> }
+                        { /* On peut même appeler une méthode mais attention au paramètre si il y a des paramètres */ }
+                        <Split
+                            left={this.add()}
+                            right={<Message message="hello right" />}
                         />
                     </React.Fragment>
                 );
