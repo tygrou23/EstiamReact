@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; // subscribe dans le redux pour lire et exécuter une action
-import { ADD_DRAGON } from './constants/actions';
 import PropTypes from 'prop-types';
 
 class Dragon extends Component {
@@ -31,15 +30,4 @@ Dragon.propTypes = {
 // lecture du state => props lecture seule dans mon composant
 const mapStateToProps = state => { return { dragons: state.dragons } };
 
-const mapDispatchToProps = dispatch => {
-
-    return {
-        add: dragon => dispatch({
-            type: ADD_DRAGON,
-            dragon
-        }),
-
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dragon);
+export default connect(mapStateToProps)(Dragon);

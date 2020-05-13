@@ -17,9 +17,14 @@ export default (state = stateInit, action = {}) => {
             }
 
         case ADD_DRAGON:
+            const dragons = [ ...state.dragons, state.dragon ];
+            const count = dragons.length;
 
             return {
-                ...state
+                ...state,
+                count : count,
+                dragons : dragons,
+                dragon : '' // mise à jour du champ de saisi
             }
 
         default:

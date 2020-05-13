@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { DRAGON } from './constants/actions';
+import { DRAGON, ADD_DRAGON } from './constants/actions';
 import './Form.css';
 
 class Form extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
+
+        this.props.add();
     }
 
     handleChange = e => {
         const { value } = e.target;
-        
+
         this.props.set(value);
     }
 
     render() {
-
         const { dragon } = this.props;
 
         return (
@@ -29,7 +30,11 @@ class Form extends Component {
                         onChange={this.handleChange}
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">Add</button>
+                <button 
+                    disabled={dragon == ''} 
+                    type="submit" 
+                    className="btn btn-primary"
+                >Add</button>
             </form>
         )
     }
@@ -45,6 +50,7 @@ const mapDispatchToProps = dispatch => {
             dragon
         }),
 
+        add: () => dispatch({ type: ADD_DRAGON })
     }
 }
 
