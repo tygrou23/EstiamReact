@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
-
 import Dragon from './Dragon';
-
-// npm install redux  --save
-// npm install react-redux --save
+import Nav from './Nav';
+import Form from './Form';
 
 class App extends Component {
 
   render() {
 
     return (
-      <>
-        <p>Hello Dragon</p>
-        <Dragon />
-      </>
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-md-4">
+           <Form />
+          </div>
+          <div className="col-12 col-md-8">
+            <Nav />
+            <Dragon />
+          </div>
+        </div>
+      </div>
     )
   }
 }
